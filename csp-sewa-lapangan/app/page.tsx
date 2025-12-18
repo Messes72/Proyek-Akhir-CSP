@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabaseClient";
 import { redirect } from "next/navigation";
 import FieldCard from "../components/fields/FieldCard";
+import RestrictedLink from "@/components/common/RestrictedLink";
 
 // Inline interface for Field with joined FieldImages
 // Using 'any' as requested for convenience, or simple interface
@@ -57,12 +58,13 @@ export default async function Home() {
           </p>
           <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
             <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5">
-              <Link
+              <RestrictedLink
                 href="/fields"
+                user={user}
                 className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-green-700 bg-white hover:bg-green-50 sm:px-8"
               >
                 Cari Lapangan
-              </Link>
+              </RestrictedLink>
               {user ? (
                 <Link
                   href="/bookings/my"
@@ -96,7 +98,7 @@ export default async function Home() {
           </div>
           <div className="mt-12 grid gap-5 max-w-lg mx-auto lg:grid-cols-3 lg:max-w-none">
             {featuredFields.map((field) => (
-              <FieldCard key={field.id} field={field as any} />
+              <FieldCard key={field.id} field={field as any} user={user} />
             ))}
             {featuredFields.length === 0 && (
               <p className="text-center text-gray-500 col-span-3">
@@ -105,12 +107,13 @@ export default async function Home() {
             )}
           </div>
           <div className="mt-10 text-center">
-            <Link
+            <RestrictedLink
               href="/fields"
+              user={user}
               className="text-green-600 hover:text-green-700 font-medium text-lg"
             >
               Lihat Semua Lapangan &rarr;
-            </Link>
+            </RestrictedLink>
           </div>
         </div>
       </div>

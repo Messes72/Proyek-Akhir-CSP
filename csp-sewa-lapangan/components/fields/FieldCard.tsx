@@ -1,5 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
+import RestrictedLink from "../common/RestrictedLink";
+import { User } from "@supabase/supabase-js";
 
 interface FieldCardProps {
   field: {
@@ -9,9 +10,10 @@ interface FieldCardProps {
     address: string;
     field_images?: { file_path: string }[];
   };
+  user: User | null | undefined;
 }
 
-export default function FieldCard({ field }: FieldCardProps) {
+export default function FieldCard({ field, user }: FieldCardProps) {
   // Demo image if none
   const imageUrl = field.field_images?.[0]?.file_path
     ? field.field_images[0].file_path
@@ -27,23 +29,25 @@ export default function FieldCard({ field }: FieldCardProps) {
       </div>
       <div className="px-4 py-4 sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
-          <Link
+          <RestrictedLink
             href={`/fields/${field.id}`}
+            user={user}
             className="hover:text-green-600 transition-colors"
           >
             {field.name}
-          </Link>
+          </RestrictedLink>
         </h3>
         <p className="mt-1 max-w-2xl text-sm text-gray-500 truncate">
           {field.address}
         </p>
         <div className="mt-4 flex justify-between items-center">
-          <Link
+          <RestrictedLink
             href={`/fields/${field.id}`}
+            user={user}
             className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none"
           >
             Lihat Detail
-          </Link>
+          </RestrictedLink>
         </div>
       </div>
     </div>

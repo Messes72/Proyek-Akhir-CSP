@@ -1,0 +1,51 @@
+import Link from "next/link";
+import Image from "next/image";
+
+interface FieldCardProps {
+  field: {
+    id: string;
+    name: string;
+    price_per_hour: number;
+    address: string;
+    field_images?: { file_path: string }[];
+  };
+}
+
+export default function FieldCard({ field }: FieldCardProps) {
+  // Demo image if none
+  const imageUrl = field.field_images?.[0]?.file_path
+    ? field.field_images[0].file_path
+    : "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"; // Placeholder
+
+  return (
+    <div className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-300">
+      <div className="h-48 w-full relative">
+        <Image src={imageUrl} alt={field.name} fill className="object-cover" />
+        <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded-md text-sm font-bold text-green-600 shadow-sm">
+          Rp {field.price_per_hour.toLocaleString("id-ID")}/jam
+        </div>
+      </div>
+      <div className="px-4 py-4 sm:px-6">
+        <h3 className="text-lg leading-6 font-medium text-gray-900">
+          <Link
+            href={`/fields/${field.id}`}
+            className="hover:text-green-600 transition-colors"
+          >
+            {field.name}
+          </Link>
+        </h3>
+        <p className="mt-1 max-w-2xl text-sm text-gray-500 truncate">
+          {field.address}
+        </p>
+        <div className="mt-4 flex justify-between items-center">
+          <Link
+            href={`/fields/${field.id}`}
+            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none"
+          >
+            Lihat Detail
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

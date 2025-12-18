@@ -16,6 +16,12 @@ export default async function FieldsPage() {
     field_images?: { file_path: string }[];
   };
 
+  // Fetch user for restricted access checks
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const user = session?.user;
+
   // Use 'any' to bypass Supabase return type but cast to our local Field type
   const { data: fieldsData, error } = await supabase
     .from("fields")
@@ -51,7 +57,9 @@ export default async function FieldsPage() {
 
         <div className="mt-12 grid gap-5 max-w-lg mx-auto lg:grid-cols-3 lg:max-w-none">
           {fields && fields.length > 0 ? (
-            fields.map((field) => <FieldCard key={field.id} field={field} />)
+            fields.map((field) => (
+              <FieldCard key={field.id} field={field} user={user} />
+            ))
           ) : (
             <div className="col-span-3 text-center text-gray-500 py-12">
               Belum ada lapangan yang tersedia saat ini.

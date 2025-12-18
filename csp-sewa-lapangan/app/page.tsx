@@ -98,7 +98,7 @@ export default async function Home() {
           </div>
           <div className="mt-12 grid gap-5 max-w-lg mx-auto lg:grid-cols-3 lg:max-w-none">
             {featuredFields.map((field) => (
-              <FieldCard key={field.id} field={field as any} user={user} />
+              <FieldCard key={field.id} field={field} user={user} />
             ))}
             {featuredFields.length === 0 && (
               <p className="text-center text-gray-500 col-span-3">
